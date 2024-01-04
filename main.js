@@ -14,7 +14,7 @@ const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerH
 const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
-const controls = new OrbitControls(camera, renderer.domElement);
+// const controls = new OrbitControls(camera, renderer.domElement);
 
 
 // Création de la sphère
@@ -279,13 +279,11 @@ function animateCameraPosition() {
   if (!isCameraAnimationComplete) {
     gsap.to(camera.position, {
       z: targetZ,
-      duration: 2, // Durée de l'animation en secondes
-      ease: "power2.out", // Type d'effet d'ease (smooth transition)
+      duration: 2,
+      ease: "power2.out",
       onUpdate: () => {
-        // Mise à jour facultative pendant l'animation
       },
       onComplete: () => {
-        // Action à effectuer une fois l'animation terminée
         isCameraAnimationComplete = true;
       }
     });
@@ -294,9 +292,9 @@ function animateCameraPosition() {
 
 
 gsap.to(".letter", {
-  delay: 1, // Délai avant l'animation
-  duration: 1.5, // Durée de l'animation pour chaque lettre
-  opacity: 1, // Opacité finale
+  delay: 1,
+  duration: 1.5,
+  opacity: 1,
   stagger: 0.1, // Délai entre l'animation de chaque lettre
   ease: "power2.inOut", // Type d'effet d'ease
   onComplete: fadeOutLetters
@@ -340,8 +338,6 @@ function animate() {
 
   // Animer la position de la caméra
   animateCameraPosition();
-
-  console.log(camera.position.z)
 
   // renderer.render(scene, camera);
   composer.render();
