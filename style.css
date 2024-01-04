@@ -34,7 +34,7 @@ body {
 .letter {
   opacity: 0;
   display: inline-block;
-  font-size: 8.75rem;
+  font-size: 5.75rem;
   /* Taille de la police basée sur la taille de la racine */
 }
 
