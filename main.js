@@ -3,6 +3,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { FilmPass } from 'three/examples/jsm/postprocessing/FilmPass.js';
+
 import { gsap } from 'gsap';
 
 const canvas = document.querySelector('canvas.webgl')
@@ -21,9 +22,9 @@ const geometry = new THREE.IcosahedronGeometry(10, 64);
 
 const uniforms = {
   uTime: { value: 0.0 },
-  uSpeed: { value: 0.1 },
+  uSpeed: { value: 0.09 },
   uNoiseDensity: { value: 0.6 },
-  uNoiseStrength: { value: 0.17 },
+  uNoiseStrength: { value: 0.18 },
   uFrequency: { value: 3 },
   uAmplitude: { value: 6 },
   uHue: { value: 0.5 },
@@ -239,7 +240,7 @@ composer.addPass(new RenderPass(scene, camera));
 
 //film pass (un peu de grain)
 const filmPass = new FilmPass(
-  0.15,   // noise intensity
+  0.2,   // noise intensity
   0.025,  // scanline intensity
   648,    // scanline count
   false,  // grayscale
@@ -247,8 +248,7 @@ const filmPass = new FilmPass(
 
 composer.addPass(filmPass);
 
-
-// Lumière
+// Ligth
 
 const directionalLight = new THREE.DirectionalLight('#ffffff', 3)
 const ambientLight = new THREE.AmbientLight('#ffffff', 1)
@@ -259,9 +259,8 @@ scene.add(directionalLight)
 const sphere = new THREE.Mesh(geometry, material);
 scene.add(sphere);
 
-
 // Position de la caméra
-camera.position.z = 1000;
+camera.position.z = 200;
 
 // Cible pour la position z de la caméra
 const targetZ = 30;
@@ -288,18 +287,17 @@ function animateCameraPosition() {
 //when the animation is complete, we rotate the sphere and the camera
 gsap.to(sphere.rotation, {
   delay: 3,
-  duration: 2,
+  duration: 4,
   x: 1.5,
   ease: "power2.inOut"
 });
 
 gsap.to(camera.position, {
   delay: 5,
-  duration: 2,
+  duration: 3,
   z: 13,
   ease: "power2.inOut"
 });
-
 
 gsap.to(".letter", {
   delay: 1,
@@ -342,6 +340,24 @@ function fadeOutImage() {
     ease: "power2.inOut",
   });
 }
+
+// const tl = gsap.timeline();
+// tl.from(".line span", 1.8, {
+//     y: 100,
+//     ease: "power4.out",
+//     delay: 1,
+//     skewY: 7,
+//     stagger: {
+//         amount: 0.3
+//     }
+// });
+
+// gsap.to('.text', {
+//   duration: 0.8,
+//   delay: 10, 
+//   y: "0%",
+//   stagger: 0.2
+// })
 
 // Fonction de rendu
 function animate() {
