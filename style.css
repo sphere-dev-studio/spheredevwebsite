@@ -46,6 +46,11 @@ body {
   }
 }
 
+.newLetter {
+  opacity: 0; /* Start with letters hidden */
+  font-size: 24px; /* Set the size as needed */
+  /* Add more styling as required */
+}
 
 h1 {
   font-size: 3.2em;

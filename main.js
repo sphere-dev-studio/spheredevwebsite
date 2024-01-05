@@ -14,8 +14,6 @@ const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerH
 const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
-// const controls = new OrbitControls(camera, renderer.domElement);
-
 
 // Création de la sphère
 const geometry = new THREE.IcosahedronGeometry(10, 64);
@@ -23,9 +21,9 @@ const geometry = new THREE.IcosahedronGeometry(10, 64);
 
 const uniforms = {
   uTime: { value: 0.0 },
-  uSpeed: { value: 0.2 },
-  uNoiseDensity: { value: 0.5 },
-  uNoiseStrength: { value: 0.15 },
+  uSpeed: { value: 0.1 },
+  uNoiseDensity: { value: 0.6 },
+  uNoiseStrength: { value: 0.17 },
   uFrequency: { value: 3 },
   uAmplitude: { value: 6 },
   uHue: { value: 0.5 },
@@ -38,7 +36,6 @@ const uniforms = {
   },
 
 };
-
 
 
 
@@ -199,9 +196,9 @@ vec3 cosPalette(float t, vec3 a, vec3 b, vec3 c, vec3 d) {
 void main() {
   float distort = vDistort * 2.0;
 
-  vec3 brightness = vec3(0.6, 0.5, 0.8);
-  vec3 contrast = vec3(0.5, 0.5, 0.5);
-  vec3 oscilation = vec3(1.0, 1.0, 1.0);
+  vec3 brightness = vec3(0.5, 0.5, 0.9);
+  vec3 contrast = vec3(1, 1, 1);
+  vec3 oscilation = vec3(1, 1, 1);
   vec3 phase = vec3(0.0, 0.1, 0.2);
 
   vec3 color = cosPalette(uHue + distort, brightness, contrast, oscilation, phase);
@@ -266,8 +263,6 @@ scene.add(sphere);
 // Position de la caméra
 camera.position.z = 1000;
 
-//on positionne la camera vue de dessus 
-
 // Cible pour la position z de la caméra
 const targetZ = 30;
 
@@ -290,27 +285,6 @@ function animateCameraPosition() {
   }
 }
 
-
-gsap.to(".letter", {
-  delay: 1,
-  duration: 1.5,
-  opacity: 1,
-  stagger: 0.1, // Délai entre l'animation de chaque lettre
-  ease: "power2.inOut", // Type d'effet d'ease
-  onComplete: fadeOutLetters
-});
-
-function fadeOutLetters() {
-  gsap.to(".letter", {
-      duration: 0.5,
-      opacity: 0,
-      stagger: 0.1,
-      delay: 0.5,
-      ease: "power2.inOut"
-  });
-}
-
-
 //when the animation is complete, we rotate the sphere and the camera
 gsap.to(sphere.rotation, {
   delay: 3,
@@ -327,7 +301,47 @@ gsap.to(camera.position, {
 });
 
 
+gsap.to(".letter", {
+  delay: 1,
+  duration: 1.5,
+  opacity: 1,
+  stagger: 0.1, // Délai entre l'animation de chaque lettre
+  ease: "power2.inOut", // Type d'effet d'ease
+  onComplete: () => {
+    fadeOutLetters();
+    fadeOutImage();
+  }
+});
 
+function fadeOutLetters() {
+  gsap.to(".letter", {
+    duration: 0.5,
+    opacity: 0,
+    stagger: 0.1,
+    delay: 0.5,
+    ease: "power2.inOut"
+  });
+}
+
+//animation pour logo
+gsap.to("#myImage", {
+  delay: 1.5, // Ou après l'animation du texte
+  duration: 1.5,
+  opacity: 1,
+  ease: "power2.inOut",
+  onComplete: fadeOutImage
+});
+
+
+function fadeOutImage() {
+  gsap.to("#myImage", {
+    duration: 0.5,
+    opacity: 0,
+    stagger: 0.1,
+    delay: 1,
+    ease: "power2.inOut",
+  });
+}
 
 // Fonction de rendu
 function animate() {
